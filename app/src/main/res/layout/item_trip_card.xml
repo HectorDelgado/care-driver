@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#ffffff"
+        app:contentPadding="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/timeStartTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="4:18a" />
+
+            <TextView
+                android:id="@+id/dashTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:text="-"
+                app:layout_constraintStart_toEndOf="@id/timeStartTV"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/timeEndTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/dashTV"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="5:37a" />
+
+            <TextView
+                android:id="@+id/rideDescriptionTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/timeEndTV"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="(2 riders)" />
+
+            <TextView
+                android:id="@+id/estTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="est"
+                app:layout_constraintEnd_toStartOf="@id/rideEstimateTV"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/rideEstimateTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="$60.71" />
+
+            <TextView
+                android:id="@+id/waypointsTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/timeStartTV"
+                tools:text="1. 2565 E Underhill Ave, Anaheim 92806\n2. 6775 Selma Ave, Los Angeles 90028\n3. 1420 S Figeuroa St, Los Angeles 90015" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</FrameLayout>
