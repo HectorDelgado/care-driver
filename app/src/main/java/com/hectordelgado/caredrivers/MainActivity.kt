@@ -25,18 +25,6 @@ class MainActivity : AppCompatActivity() {
 
         initializeViewModel()
 
-//        val passengers = listOf(Passenger(3332, false, "Jop"))
-//        val waypoints = listOf(OrderedWaypoint(33, true, passengers, Location("33 st", 33.3, 22.2)))
-//        val temp = Trip.TripCard(
-//            "Start Time",
-//            "End Time",
-//            "(2 riders)",
-//            "$44.44",
-//            waypoints
-//        )
-//
-//        initializeRecyclerView(listOf(temp))
-
         viewModel.trips.observe(this) { tripCards ->
             Log.d("logz", "observing ${tripCards.size} tripcards")
 
@@ -61,9 +49,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeRecyclerView(data: List<Trip>) {
-        Log.d("logz", "Initializing RV")
+        adapter = TripAdapter(data) {
 
-        adapter = TripAdapter(data)
+        }
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)

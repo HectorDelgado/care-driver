@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Date/Time/Estimate -->
+    <LinearLayout
+        android:id="@+id/dateTimeLinearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <TextView
+            android:id="@+id/dateTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Thu 6/17"/>
+        <TextView
+            android:id="@+id/startTimeTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            tools:text="3:36p"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="-"/>
+        <TextView
+            android:id="@+id/endTimeTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            tools:text="4:26p"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Estimated"/>
+            <TextView
+                android:id="@+id/estimatedAmountTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="$30.54"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Map -->
+    <View
+        android:id="@+id/temp"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:background="#cacaca"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dateTimeLinearLayout"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <TextView
+        android:id="@+id/tripMessageTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/temp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="This trip is part of a series."/>
+    <View
+        android:id="@+id/borderView1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CACACA"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tripMessageTV"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Pickup -->
+    <ImageView
+        android:id="@+id/pickupIV"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/borderView1"
+        android:src="@android:drawable/ic_dialog_map" />
+    <TextView
+        android:id="@+id/pickupTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/pickupIV"
+        app:layout_constraintTop_toTopOf="@id/pickupIV"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Pickup"/>
+    <TextView
+        android:id="@+id/startAddressTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/pickupTV"
+        app:layout_constraintTop_toBottomOf="@id/pickupTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="1 World Way, Los Angeles, Ca"/>
+    <View
+        android:id="@+id/borderView2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/startAddressTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#CACACA"/>
+
+    <!-- Dropoff -->
+    <ImageView
+        android:id="@+id/dropoffIV"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/borderView2"
+        android:src="@android:drawable/ic_dialog_map" />
+    <TextView
+        android:id="@+id/dropoffTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/dropoffIV"
+        app:layout_constraintTop_toTopOf="@id/dropoffIV"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Drop-off"/>
+    <TextView
+        android:id="@+id/endAddressTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/dropoffTV"
+        app:layout_constraintTop_toBottomOf="@id/dropoffTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="3345 Wilshire Blvd, Los Angeles, Ca"/>
+    <View
+        android:id="@+id/borderView3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/endAddressTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#CACACA"/>
+
+    <!-- Trip metadata -->
+    <TextView
+        android:id="@+id/tripIdTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/borderView3"
+        tools:text="Trip ID: af5d050caaa63f"/>
+    <TextView
+        android:id="@+id/dotTV1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="•"
+        app:layout_constraintStart_toEndOf="@id/tripIdTV"
+        app:layout_constraintBaseline_toBaselineOf="@id/tripIdTV"/>
+    <TextView
+        android:id="@+id/rideMilesTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/dotTV1"
+        app:layout_constraintBaseline_toBaselineOf="@id/dotTV1"
+        tools:text="18.48 mi"/>
+    <TextView
+        android:id="@+id/dotTV2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="•"
+        app:layout_constraintStart_toEndOf="@id/rideMilesTV"
+        app:layout_constraintBaseline_toBaselineOf="@id/rideMilesTV"/>
+    <TextView
+        android:id="@+id/rideMinutesTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/dotTV2"
+        app:layout_constraintBaseline_toBaselineOf="@id/dotTV2"
+        tools:text="18.48 mi"/>
+    <!-- Bottom -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancelBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rideMinutesTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Cancel This Trip"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
