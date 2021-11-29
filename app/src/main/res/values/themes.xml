@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.CareDrivers" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">#9FD9E8</item>
+        <item name="colorPrimaryVariant">#1A3045</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>

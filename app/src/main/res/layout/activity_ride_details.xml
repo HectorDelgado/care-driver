@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <!-- Date/Time/Estimate -->
     <LinearLayout
@@ -95,82 +95,92 @@
         app:layout_constraintTop_toBottomOf="@id/inSeriesTV"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Pickup -->
-    <ImageView
-        android:id="@+id/pickupIV"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="10dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/borderView1"
-        android:src="@android:drawable/ic_dialog_map" />
+        app:layout_constraintBottom_toTopOf="@id/metadataLL"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_waypoint"/>
 
-    <TextView
-        android:id="@+id/pickupTV"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="Pickup"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/pickupIV"
-        app:layout_constraintTop_toTopOf="@id/pickupIV" />
-    <TextView
-        android:id="@+id/startAddressTV"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/pickupTV"
-        app:layout_constraintTop_toBottomOf="@id/pickupTV"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="1 World Way, Los Angeles, Ca"/>
-    <View
-        android:id="@+id/borderView2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/startAddressTV"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="#CACACA"/>
+<!--    &lt;!&ndash; Pickup &ndash;&gt;-->
+<!--    <ImageView-->
+<!--        android:id="@+id/pickupIV"-->
+<!--        android:layout_width="20dp"-->
+<!--        android:layout_height="20dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/borderView1"-->
+<!--        android:src="@android:drawable/ic_dialog_map" />-->
 
-    <!-- Dropoff -->
-    <ImageView
-        android:id="@+id/dropoffIV"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/borderView2"
-        android:src="@android:drawable/ic_dialog_map" />
+<!--    <TextView-->
+<!--        android:id="@+id/pickupTV"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="10dp"-->
+<!--        android:text="Pickup"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@id/pickupIV"-->
+<!--        app:layout_constraintTop_toTopOf="@id/pickupIV" />-->
+<!--    <TextView-->
+<!--        android:id="@+id/startAddressTV"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toStartOf="@id/pickupTV"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/pickupTV"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:text="1 World Way, Los Angeles, Ca"/>-->
+<!--    <View-->
+<!--        android:id="@+id/borderView2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/startAddressTV"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:background="#CACACA"/>-->
 
-    <TextView
-        android:id="@+id/dropoffTV"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="Drop-off"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/dropoffIV"
-        app:layout_constraintTop_toTopOf="@id/dropoffIV" />
-    <TextView
-        android:id="@+id/endAddressTV"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+<!--    &lt;!&ndash; Dropoff &ndash;&gt;-->
+<!--    <ImageView-->
+<!--        android:id="@+id/dropoffIV"-->
+<!--        android:layout_width="20dp"-->
+<!--        android:layout_height="20dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/borderView2"-->
+<!--        android:src="@android:drawable/ic_dialog_map" />-->
 
-        app:layout_constraintStart_toStartOf="@id/dropoffTV"
-        app:layout_constraintTop_toBottomOf="@id/dropoffTV"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="3345 Wilshire Blvd, Los Angeles, Ca"/>
-    <View
-        android:id="@+id/borderView3"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/endAddressTV"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="#CACACA"/>
+<!--    <TextView-->
+<!--        android:id="@+id/dropoffTV"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="10dp"-->
+<!--        android:text="Drop-off"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@id/dropoffIV"-->
+<!--        app:layout_constraintTop_toTopOf="@id/dropoffIV" />-->
+<!--    <TextView-->
+<!--        android:id="@+id/endAddressTV"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+
+<!--        app:layout_constraintStart_toStartOf="@id/dropoffTV"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/dropoffTV"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:text="3345 Wilshire Blvd, Los Angeles, Ca"/>-->
+<!--    <View-->
+<!--        android:id="@+id/borderView3"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/endAddressTV"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:background="#CACACA"/>-->
 
     <!-- Trip metadata -->
     <LinearLayout
@@ -180,7 +190,7 @@
         android:paddingHorizontal="10dp"
         android:paddingVertical="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/borderView3"
+        app:layout_constraintBottom_toTopOf="@id/cancelBtn"
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
@@ -230,7 +240,7 @@
         android:padding="20dp"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/metadataLL"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="Cancel This Trip"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

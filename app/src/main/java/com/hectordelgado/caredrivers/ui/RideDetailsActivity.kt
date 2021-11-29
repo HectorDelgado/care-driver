@@ -3,12 +3,16 @@ package com.hectordelgado.caredrivers.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.hectordelgado.caredrivers.R
+import com.hectordelgado.caredrivers.adapter.WaypointAdapter
 import com.hectordelgado.caredrivers.databinding.ActivityRideDetailsBinding
+import com.hectordelgado.caredrivers.model.OrderedWaypoint
 import com.hectordelgado.caredrivers.model.Ride
 import com.hectordelgado.caredrivers.repository.AppDatabase
 import com.hectordelgado.caredrivers.util.centsToDollarsAndCents
@@ -38,10 +42,10 @@ class RideDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         initializeViewModel()
 
-
-
         viewModel.getRide(rideId) { ride ->
             initializeUI(ride)
+            initializeRecyclerView(ride.orderedWaypoints)
+            initializeMapView(ride.orderedWaypoints)
         }
     }
 
@@ -60,8 +64,6 @@ class RideDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         val endTime = endLdt.toFormattedTime()
         val estimatedAmount = "$${ride.estimatedEarningsCents.centsToDollarsAndCents()}"
         val inSeries = if (ride.inSeries) getString(R.string.part_of_series) else ""
-        val pickupAddress = ride.orderedWaypoints.first().location.address
-        val dropOffAddress = ride.orderedWaypoints.last().location.address
         val tripId = ride.tripId.toString()
         val rideMiles = "${ride.estimatedRideMiles} mi"
         val rideMinutes = "${ride.estimatedRideMinutes} min"
@@ -71,27 +73,29 @@ class RideDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.endTimeTV.text = endTime
         binding.estimatedAmountTV.text = estimatedAmount
         binding.inSeriesTV.text = inSeries
-        binding.pickupTV.text = pickupAddress
-        binding.dropoffTV.text = dropOffAddress
         binding.tripIdTV.text = tripId
         binding.rideMilesTV.text = rideMiles
         binding.rideMinutesTV.text = rideMinutes
+    }
 
-        val waypoints = ride.orderedWaypoints
-        val startLatLng = LatLng(waypoints.first().location.lat, waypoints.first().location.lng)
-        val endLatLng = LatLng(waypoints.last().location.lat, waypoints.last().location.lng)
-        val averageLatLng = LatLng((startLatLng.latitude + endLatLng.latitude) / 2, (startLatLng.longitude + endLatLng.longitude) / 2)
+    private fun initializeRecyclerView(waypoints: List<OrderedWaypoint>) {
+        val adapter = WaypointAdapter(waypoints)
+        val recyclerView = binding.recyclerView
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+    }
 
-        googleMap?.addMarker(
-            MarkerOptions()
-                .position(startLatLng)
-                .title("Start")
-        )
-        googleMap?.addMarker(
-            MarkerOptions()
-                .position(endLatLng)
-                .title("End")
-        )
+    private fun initializeMapView(waypoints: List<OrderedWaypoint>) {
+        val latLngs = waypoints.map { LatLng(it.location.lat, it.location.lng) }
+        val averageLat = latLngs.fold(0.0) { sum, latLng -> sum + latLng.latitude}.div(latLngs.size)
+        val averageLng = latLngs.fold(0.0) { sum, latLng -> sum + latLng.longitude}.div(latLngs.size)
+        val averageLatLng = LatLng(averageLat, averageLng)
+        latLngs.forEach { latLng ->
+            googleMap?.addMarker(
+                MarkerOptions()
+                    .position(latLng)
+            )
+        }
         val cameraUpdate = CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(averageLatLng, 10.0f))
         googleMap?.animateCamera(cameraUpdate)
     }
