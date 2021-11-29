@@ -2,4 +2,7 @@
     <string name="app_name">CareDrivers</string>
     <string name="symbol_dot">•</string>
     <string name="symbol_dash">-</string>
+    <string name="part_of_series">This trip is part of a series.</string>
+    <string name="estimated">Estimated</string>
+    <string name="test_address">1. 2565 E Underhill Ave, Anaheim 92806\n2. 6775 Selma Ave, Los Angeles 90028\n3. 1420 S Figeuroa St, Los Angeles 90015</string>
 </resources>

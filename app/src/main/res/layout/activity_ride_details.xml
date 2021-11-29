@@ -63,33 +63,36 @@
     </LinearLayout>
 
     <!-- Map -->
-    <View
-        android:id="@+id/temp"
+    <fragment
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="200dp"
         android:background="#cacaca"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dateTimeLinearLayout"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
-        android:id="@+id/tripMessageTV"
+        android:id="@+id/inSeriesTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="This trip is part of a series."
+        android:text=""
         android:textSize="12sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/temp" />
+        app:layout_constraintTop_toBottomOf="@id/map"
+        tools:text="@string/part_of_series"/>
     <View
         android:id="@+id/borderView1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#CACACA"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tripMessageTV"
+        app:layout_constraintTop_toBottomOf="@id/inSeriesTV"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Pickup -->

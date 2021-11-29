@@ -1,5 +1,6 @@
 package com.hectordelgado.caredrivers.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +20,7 @@ class TripAdapter(private val list: List<Trip>, private val onClick: (Ride) -> U
             itemBinding.dateTV.text = item.tripDate
             itemBinding.timeStartTV.text = item.startTime
             itemBinding.timeEndTV.text = item.endTime
-            itemBinding.estimatedAmountTV.text = item.endTime
+            itemBinding.estimatedAmountTV.text = "$${item.estimatedTotal}"
         }
     }
 
@@ -38,15 +39,12 @@ class TripAdapter(private val list: List<Trip>, private val onClick: (Ride) -> U
             val boosterDescription = when(boosterSeatsRequired) {
                 0 -> ""
                 else -> " • $boosterSeatsRequired booster"
-            }.apply { if (boosterSeatsRequired > 1) { plus("s") } }
+            }.plus(if (boosterSeatsRequired > 1) "s" else "")
             val riders = item.ride.orderedWaypoints.maxOf { it.passengers.size }
             val boosterRiderDescription = "($riders rider"
-                .apply {
-                    if (riders > 1) {
-                        plus("s")
-                    }
-                }
-                .plus("$boosterDescription)")
+                .plus(if (riders > 1) "s" else "")
+                .plus(boosterDescription)
+                .plus(")")
             val rideEstimate = "$${item.ride.estimatedEarningsCents.centsToDollarsAndCents()}"
             val waypoints = item.ride.orderedWaypoints
                 .mapIndexed { index, orderedWaypoint ->
