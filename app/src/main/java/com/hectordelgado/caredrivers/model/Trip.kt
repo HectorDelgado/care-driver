@@ -1,5 +1,7 @@
 package com.hectordelgado.caredrivers.model
 
+import java.time.LocalDateTime
+
 sealed class Trip(val viewType: Int) {
     data class TripHeader(
         val tripDate: String,
@@ -9,6 +11,8 @@ sealed class Trip(val viewType: Int) {
     ) : Trip(0)
 
     data class TripCard(
+        val startLdt: LocalDateTime,
+        val endLdt: LocalDateTime,
         val startTime: String,
         val endTime: String,
         val riderBoosterDescription: String,

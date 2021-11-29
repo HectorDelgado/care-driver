@@ -5,20 +5,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hectordelgado.caredrivers.MainRepository
+import com.hectordelgado.caredrivers.repository.ApiRepository
 import com.hectordelgado.caredrivers.ResponseError
 import com.hectordelgado.caredrivers.centsToDollarsAndCents
 import com.hectordelgado.caredrivers.model.Ride
 import com.hectordelgado.caredrivers.model.Trip
+import com.hectordelgado.caredrivers.repository.RideRepository
+import com.hectordelgado.caredrivers.toLocalDateTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.util.*
 
-class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
+class MainViewModel(
+    private val apiRepository: ApiRepository,
+    private val rideRepository: RideRepository
+    ) : ViewModel() {
+
     private val _tripCards = MutableLiveData<List<Trip.TripCard>>()
     val trips: LiveData<List<Trip.TripCard>>
         get() = _tripCards
@@ -27,13 +29,21 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
     val errors: LiveData<ResponseError>
         get() = _errors
 
+    /**
+     * Fetches the latest rides the HopSkipDrive API.
+     * If the result is successful the Rides are parsed into
+     */
     fun fetchRides() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val result = mainRepository.fetchRides()
+                val result = apiRepository.fetchRides()
 
                 if (result.isSuccessful) {
-                    result.body()?.rides?.let { rides -> withContext(Dispatchers.Main) { createTripCardsFromRide(rides) } }
+                    result.body()?.rides?.let { rides ->
+                        withContext(Dispatchers.Main) {
+                            createTripCardsFromRide(rides)
+                        }
+                    }
                 } else {
                     _errors.value = ResponseError(result.code(), result.errorBody().toString())
                 }
@@ -47,8 +57,8 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
         // Create rides
         rides.forEach { ride ->
             Log.d("logz", "Start Date: ${ride.startsAt}")
-            val startLdt = LocalDateTime.ofInstant(Instant.parse(ride.startsAt), ZoneId.systemDefault())
-            val endLdt = LocalDateTime.ofInstant(Instant.parse(ride.endsAt), ZoneId.systemDefault())
+            val startLdt = ride.startsAt.toLocalDateTime()
+            val endLdt = ride.endsAt.toLocalDateTime()
 
             val startTime = "${startLdt.hour}:${startLdt.minute}"
             val endTime = "${endLdt.hour}:${endLdt.minute}"
@@ -69,13 +79,19 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
             val tripEstimate = "$${ride.estimatedEarningsCents.centsToDollarsAndCents()}"
 
 
-            tripCards.add(Trip.TripCard(startTime, endTime, boosterRiderDescription, tripEstimate, ride.orderedWaypoints))
+            tripCards.add(Trip.TripCard(startLdt, endLdt, startTime, endTime, boosterRiderDescription, tripEstimate, ride.orderedWaypoints))
         }
 
+        createTripHeadersFromTripCards(tripCards)
         _tripCards.value = tripCards
 
         tripCards.forEach {
             Log.d("logz", "TripCard -> $it")
         }
+    }
+
+    private fun createTripHeadersFromTripCards(list: List<Trip.TripCard>) {
+        val dates = list.distinctBy { "${it.startLdt.monthValue}${it.startLdt.dayOfMonth}" }
+        Log.d("logz", "Unique dates are: $dates")
     }
 }

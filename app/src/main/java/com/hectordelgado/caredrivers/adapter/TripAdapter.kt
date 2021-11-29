@@ -11,68 +11,52 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hectordelgado.caredrivers.R
+import com.hectordelgado.caredrivers.databinding.ItemTripCardBinding
+import com.hectordelgado.caredrivers.databinding.ItemTripHeaderBinding
 import com.hectordelgado.caredrivers.model.Trip
 import java.text.SimpleDateFormat
 import java.util.*
 
 class TripAdapter(private val list: List<Trip>, private val onClick: (Trip.TripCard) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private inner class TripHeaderVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val dateTV: TextView = itemView.findViewById(R.id.dateTV)
-        private val startTimeTV: TextView = itemView.findViewById(R.id.timeStartTV)
-        private val endTimeTV: TextView = itemView.findViewById(R.id.timeEndTV)
-        private val estimatedAmountTV: TextView = itemView.findViewById(R.id.estimatedAmountTV)
-
+    private inner class TripHeaderVH(private val itemBinding: ItemTripHeaderBinding)
+        : RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(item: Trip.TripHeader) {
-            dateTV.text = item.tripDate
-            startTimeTV.text = item.startTime
-            endTimeTV.text = item.endTime
-            estimatedAmountTV.text = item.endTime
+            itemBinding.dateTV.text = item.tripDate
+            itemBinding.timeStartTV.text = item.startTime
+            itemBinding.timeEndTV.text = item.endTime
+            itemBinding.estimatedAmountTV.text = item.endTime
         }
     }
 
-    private inner class TripCardVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val cardView: CardView = itemView.findViewById(R.id.cardView)
-        private val startTimeTV: TextView = itemView.findViewById(R.id.timeStartTV)
-        private val endTimeTV: TextView = itemView.findViewById(R.id.timeEndTV)
-        private val descriptionTV: TextView = itemView.findViewById(R.id.rideDescriptionTV)
-        private val estimateTV: TextView = itemView.findViewById(R.id.rideEstimateTV)
-        private val waypointsTV: TextView = itemView.findViewById(R.id.waypointsTV)
-
+    private inner class TripCardVH(private val itemBinding: ItemTripCardBinding)
+        : RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(item: Trip.TripCard) {
-            cardView.setOnClickListener { onClick(item) }
-            val startTime = item.startTime
-            val endTime = item.endTime
-            val description = item.riderBoosterDescription
-            val estimate = item.tripEstimate
-            val waypoints = item.waypoints
+            itemBinding.cardView.setOnClickListener { onClick(item) }
+            itemBinding.timeStartTV.text = item.startTime
+            itemBinding.timeEndTV.text = item.endTime
+            itemBinding.rideDescriptionTV.text = item.riderBoosterDescription
+            itemBinding.rideEstimateTV.text = item.tripEstimate
+            itemBinding.waypointsTV.text = item.waypoints
                 .mapIndexed { index, orderedWaypoint ->
                     "${index + 1}. ${orderedWaypoint.location.address}"
                 }
                 .joinToString("\n")
-
-            startTimeTV.text = startTime
-            endTimeTV.text = endTime
-            descriptionTV.text = description
-            estimateTV.text = estimate
-            waypointsTV.text = waypoints
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = when (viewType) {
-            TYPE_TRIP_HEADER -> R.layout.item_trip_header
-            TYPE_TRIP_CARD -> R.layout.item_trip_card
-            else -> throw IllegalArgumentException("Invalid View Type")
-        }.run {
-            LayoutInflater
-                .from(parent.context)
-                .inflate(this, parent, false)
-        }
+        val layoutInflater = LayoutInflater.from(parent.context)
 
         return when(viewType) {
-            TYPE_TRIP_HEADER -> TripHeaderVH(view)
-            TYPE_TRIP_CARD -> TripCardVH(view)
+            TYPE_TRIP_HEADER -> {
+                val itemBinding = ItemTripHeaderBinding.inflate(layoutInflater, parent, false)
+                TripHeaderVH(itemBinding)
+            }
+            TYPE_TRIP_CARD -> {
+                val itemBinding = ItemTripCardBinding.inflate(layoutInflater, parent, false)
+                TripCardVH(itemBinding)
+            }
             else -> throw IllegalArgumentException("Invalid View Type")
         }
     }
