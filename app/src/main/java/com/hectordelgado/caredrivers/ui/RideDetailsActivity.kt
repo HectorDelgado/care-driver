@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.hectordelgado.caredrivers.R
@@ -14,15 +13,13 @@ import com.hectordelgado.caredrivers.adapter.WaypointAdapter
 import com.hectordelgado.caredrivers.databinding.ActivityRideDetailsBinding
 import com.hectordelgado.caredrivers.model.OrderedWaypoint
 import com.hectordelgado.caredrivers.model.Ride
-import com.hectordelgado.caredrivers.repository.AppDatabase
+import com.hectordelgado.caredrivers.repository.RideDatabase
 import com.hectordelgado.caredrivers.util.centsToDollarsAndCents
 import com.hectordelgado.caredrivers.util.toFormattedTime
 import com.hectordelgado.caredrivers.util.toLocalDateTime
 import com.hectordelgado.caredrivers.util.toShortName
 import com.hectordelgado.caredrivers.viewmodel.RideDetailsViewModel
 import com.hectordelgado.caredrivers.viewmodel.RideDetailsViewModelFactory
-import java.time.format.TextStyle
-import java.util.*
 
 class RideDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var viewModel: RideDetailsViewModel
@@ -44,17 +41,22 @@ class RideDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         viewModel.getRide(rideId) { ride ->
             initializeUI(ride)
-            initializeRecyclerView(ride.orderedWaypoints)
             initializeMapView(ride.orderedWaypoints)
         }
     }
 
+    /**
+     * Initializes the ViewModel for the UI.
+     */
     private fun initializeViewModel() {
-        val rideDao = AppDatabase.getInstance(applicationContext).rideDao()
+        val rideDao = RideDatabase.getInstance(applicationContext).rideDao()
         val factory = RideDetailsViewModelFactory(rideDao)
         viewModel = ViewModelProvider(this, factory).get(RideDetailsViewModel::class.java)
     }
 
+    /**
+     * Initializes various UI components with data from the retrieved Ride.
+     */
     private fun initializeUI(ride: Ride) {
         val startLdt = ride.startsAt.toLocalDateTime()
         val endLdt = ride.endsAt.toLocalDateTime()
@@ -76,8 +78,13 @@ class RideDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.tripIdTV.text = tripId
         binding.rideMilesTV.text = rideMiles
         binding.rideMinutesTV.text = rideMinutes
+
+        initializeRecyclerView(ride.orderedWaypoints)
     }
 
+    /**
+     * Initializes the RecyclerView with the list of OrderedWaypoint objects.
+     */
     private fun initializeRecyclerView(waypoints: List<OrderedWaypoint>) {
         val adapter = WaypointAdapter(waypoints)
         val recyclerView = binding.recyclerView
@@ -85,6 +92,10 @@ class RideDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
+    /**
+     * Initializes the MapView with markers on all OrderedWaypoints, and updates the camera
+     * location to the center of all the locations.
+     */
     private fun initializeMapView(waypoints: List<OrderedWaypoint>) {
         val latLngs = waypoints.map { LatLng(it.location.lat, it.location.lng) }
         val averageLat = latLngs.fold(0.0) { sum, latLng -> sum + latLng.latitude}.div(latLngs.size)

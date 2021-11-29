@@ -1,6 +1,5 @@
 package com.hectordelgado.caredrivers.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +11,11 @@ import com.hectordelgado.caredrivers.model.Trip
 import com.hectordelgado.caredrivers.util.toFormattedTime
 import com.hectordelgado.caredrivers.util.toLocalDateTime
 
+/**
+ * Class responsible for inflating and binding views in a RecyclerView with [Trip] items.
+ * @param list The list of elements this adapter will display.
+ * @param onClick Callback method that is triggered when a TripCard is clicked.
+ */
 class TripAdapter(private val list: List<Trip>, private val onClick: (Ride) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private inner class TripHeaderVH(private val itemBinding: ItemTripHeaderBinding)

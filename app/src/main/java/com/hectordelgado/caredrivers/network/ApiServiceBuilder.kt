@@ -4,12 +4,14 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.create
 
-object RetrofitBuilder {
+/**
+ * Builds the API service using Retrofit and Moshi.
+ */
+object ApiServiceBuilder {
     private const val BASE_URL = "https://storage.googleapis.com/hsd-interview-resources/"
 
-    val apiService = getRetrofit().create(ApiService::class.java)
+    val apiService: ApiService = getRetrofit().create(ApiService::class.java)
 
     private fun getRetrofit(): Retrofit {
         val moshi = Moshi.Builder()

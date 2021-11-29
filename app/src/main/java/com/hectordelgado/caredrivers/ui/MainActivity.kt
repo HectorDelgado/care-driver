@@ -11,8 +11,8 @@ import com.hectordelgado.caredrivers.adapter.TripAdapter
 import com.hectordelgado.caredrivers.databinding.ActivityMainBinding
 import com.hectordelgado.caredrivers.model.Trip
 import com.hectordelgado.caredrivers.repository.ApiDao
-import com.hectordelgado.caredrivers.network.RetrofitBuilder
-import com.hectordelgado.caredrivers.repository.AppDatabase
+import com.hectordelgado.caredrivers.network.ApiServiceBuilder
+import com.hectordelgado.caredrivers.repository.RideDatabase
 import com.hectordelgado.caredrivers.viewmodel.MainViewModel
 import com.hectordelgado.caredrivers.viewmodel.MainViewModelFactory
 
@@ -44,15 +44,22 @@ class MainActivity : AppCompatActivity() {
         viewModel.fetchRides()
     }
 
+    /**
+     * Initializes the ViewModel for the UI.
+     */
     private fun initializeViewModel() {
-        val apiDao = ApiDao(RetrofitBuilder.apiService)
-        val rideDao = AppDatabase.getInstance(applicationContext).rideDao()
+        val apiDao = ApiDao(ApiServiceBuilder.apiService)
+        val rideDao = RideDatabase.getInstance(applicationContext).rideDao()
         val factory = MainViewModelFactory(apiDao, rideDao)
         viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
     }
 
+    /**
+     * Initializes the RecyclerView with the list of Trip objects.
+     */
     private fun initializeRecyclerView(data: List<Trip>) {
         adapter = TripAdapter(data) { ride ->
+            // Store clicked ride in database, then start next activity once action is complete
             viewModel.saveRide(ride) {
                 val intent = Intent(this, RideDetailsActivity::class.java)
                 intent.putExtra("rideId", ride.tripId)

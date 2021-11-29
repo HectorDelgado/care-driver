@@ -7,6 +7,10 @@ import com.hectordelgado.caredrivers.R
 import com.hectordelgado.caredrivers.databinding.ItemWaypointBinding
 import com.hectordelgado.caredrivers.model.OrderedWaypoint
 
+/**
+ * Class responsible for inflating and binding views in a RecyclerView with [OrderedWaypoint] items.
+ * @param list The list of elements this adapter will display.
+ */
 class WaypointAdapter(private val list: List<OrderedWaypoint>)
     : RecyclerView.Adapter<WaypointAdapter.WaypointVH>() {
     class WaypointVH(private val itemBinding: ItemWaypointBinding) : RecyclerView.ViewHolder(itemBinding.root) {

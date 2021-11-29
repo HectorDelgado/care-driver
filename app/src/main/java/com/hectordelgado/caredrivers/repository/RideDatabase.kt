@@ -8,17 +8,20 @@ import androidx.room.TypeConverters
 import com.hectordelgado.caredrivers.model.Ride
 import com.hectordelgado.caredrivers.util.Converters
 
+/**
+ * A Room database that provides a thread-safe singleton implementation.
+ */
 @Database(entities = [Ride::class], version = 1)
 @TypeConverters(Converters::class)
-abstract class AppDatabase : RoomDatabase() {
+abstract class RideDatabase : RoomDatabase() {
     companion object {
-        @Volatile private var INSTANCE: AppDatabase? = null
+        @Volatile private var INSTANCE: RideDatabase? = null
 
-        fun getInstance(context: Context): AppDatabase {
+        fun getInstance(context: Context): RideDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    AppDatabase::class.java,
+                    RideDatabase::class.java,
                     "ride-database")
                     .build()
                 INSTANCE = instance

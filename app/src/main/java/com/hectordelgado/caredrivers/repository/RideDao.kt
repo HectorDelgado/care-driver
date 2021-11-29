@@ -5,6 +5,10 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.hectordelgado.caredrivers.model.Ride
 
+
+/**
+ * Data access object for interacting with [RideDatabase].
+ */
 @Dao
 interface RideDao {
     @Query("SELECT * FROM ride WHERE tripId LIKE (:id)")

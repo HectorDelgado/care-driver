@@ -9,8 +9,7 @@ class Converters {
     @TypeConverter
     fun fromList(list: List<OrderedWaypoint>): String {
         val gson = Gson()
-        val json = gson.toJson(list)
-        return json
+        return gson.toJson(list)
     }
 
     @TypeConverter
