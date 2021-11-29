@@ -10,13 +10,15 @@ sealed class Trip(val viewType: Int) {
         val estimatedTotal: String
     ) : Trip(0)
 
-    data class TripCard(
-        val startLdt: LocalDateTime,
-        val endLdt: LocalDateTime,
-        val startTime: String,
-        val endTime: String,
-        val riderBoosterDescription: String,
-        val tripEstimate: String,
-        val waypoints: List<OrderedWaypoint>
-    ) : Trip(1)
+//    data class TripCard(
+//        val startLdt: LocalDateTime,
+//        val endLdt: LocalDateTime,
+//        val startTime: String,
+//        val endTime: String,
+//        val riderBoosterDescription: String,
+//        val tripEstimate: String,
+//        val waypoints: List<OrderedWaypoint>
+//    ) : Trip(1)
+
+    data class TripCard(val ride: Ride) : Trip(1)
 }

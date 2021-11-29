@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CareDrivers</string>
+    <string name="symbol_dot">•</string>
+    <string name="symbol_dash">-</string>
 </resources>

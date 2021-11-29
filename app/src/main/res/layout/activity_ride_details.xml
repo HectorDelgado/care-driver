@@ -15,26 +15,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
         <TextView
             android:id="@+id/dateTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Thu 6/17"/>
+            android:textStyle="bold"
+            tools:text="Thu 6/17" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="5dp"
+            android:text="@string/symbol_dot"/>
         <TextView
             android:id="@+id/startTimeTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
             tools:text="3:36p"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="-"/>
+            android:layout_marginHorizontal="5dp"
+            android:text="@string/symbol_dash" />
         <TextView
             android:id="@+id/endTimeTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
             tools:text="4:26p"/>
 
         <LinearLayout
@@ -46,7 +53,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Estimated"/>
+                android:text="Estimated"/>
             <TextView
                 android:id="@+id/estimatedAmountTV"
                 android:layout_width="wrap_content"
@@ -64,15 +71,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dateTimeLinearLayout"
         app:layout_constraintEnd_toEndOf="parent"/>
+
     <TextView
         android:id="@+id/tripMessageTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/temp"
+        android:text="This trip is part of a series."
+        android:textSize="12sp"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="This trip is part of a series."/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/temp" />
     <View
         android:id="@+id/borderView1"
         android:layout_width="match_parent"
@@ -91,15 +101,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/borderView1"
         android:src="@android:drawable/ic_dialog_map" />
+
     <TextView
         android:id="@+id/pickupTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        app:layout_constraintStart_toEndOf="@id/pickupIV"
-        app:layout_constraintTop_toTopOf="@id/pickupIV"
+        android:text="Pickup"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Pickup"/>
+        app:layout_constraintStart_toEndOf="@id/pickupIV"
+        app:layout_constraintTop_toTopOf="@id/pickupIV" />
     <TextView
         android:id="@+id/startAddressTV"
         android:layout_width="0dp"
@@ -127,18 +139,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/borderView2"
         android:src="@android:drawable/ic_dialog_map" />
+
     <TextView
         android:id="@+id/dropoffTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/dropoffIV"
-        app:layout_constraintTop_toTopOf="@id/dropoffIV"
+        android:layout_marginStart="10dp"
+        android:text="Drop-off"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Drop-off"/>
+        app:layout_constraintStart_toEndOf="@id/dropoffIV"
+        app:layout_constraintTop_toTopOf="@id/dropoffIV" />
     <TextView
         android:id="@+id/endAddressTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+
         app:layout_constraintStart_toStartOf="@id/dropoffTV"
         app:layout_constraintTop_toBottomOf="@id/dropoffTV"
         app:layout_constraintEnd_toEndOf="parent"
@@ -154,47 +170,55 @@
         android:background="#CACACA"/>
 
     <!-- Trip metadata -->
-    <TextView
-        android:id="@+id/tripIdTV"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/metadataLL"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/borderView3"
-        tools:text="Trip ID: af5d050caaa63f"/>
-    <TextView
-        android:id="@+id/dotTV1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="•"
-        app:layout_constraintStart_toEndOf="@id/tripIdTV"
-        app:layout_constraintBaseline_toBaselineOf="@id/tripIdTV"/>
-    <TextView
-        android:id="@+id/rideMilesTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        app:layout_constraintStart_toEndOf="@id/dotTV1"
-        app:layout_constraintBaseline_toBaselineOf="@id/dotTV1"
-        tools:text="18.48 mi"/>
-    <TextView
-        android:id="@+id/dotTV2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="•"
-        app:layout_constraintStart_toEndOf="@id/rideMilesTV"
-        app:layout_constraintBaseline_toBaselineOf="@id/rideMilesTV"/>
-    <TextView
-        android:id="@+id/rideMinutesTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        app:layout_constraintStart_toEndOf="@id/dotTV2"
-        app:layout_constraintBaseline_toBaselineOf="@id/dotTV2"
-        tools:text="18.48 mi"/>
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trip ID: "
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/tripIdTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            tools:text="af5d050caaa63f"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:textSize="12sp"
+            android:text="@string/symbol_dot" />
+        <TextView
+            android:id="@+id/rideMilesTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            tools:text="18.48 mi"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:text="@string/symbol_dot"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/rideMilesTV"
+            app:layout_constraintBaseline_toBaselineOf="@id/rideMilesTV"/>
+        <TextView
+            android:id="@+id/rideMinutesTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            tools:text="50 min"/>
+    </LinearLayout>
+
     <!-- Bottom -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancelBtn"
@@ -203,7 +227,7 @@
         android:padding="20dp"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rideMinutesTV"
+        app:layout_constraintTop_toBottomOf="@id/metadataLL"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="Cancel This Trip"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

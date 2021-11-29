@@ -8,7 +8,7 @@ import com.hectordelgado.caredrivers.model.Ride
 @Dao
 interface RideDao {
     @Query("SELECT * FROM ride WHERE tripId LIKE (:id)")
-    suspend fun getById(id: String): Ride
+    suspend fun getById(id: Int): Ride
 
     @Insert
     suspend fun insert(ride: Ride)

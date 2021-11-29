@@ -4,9 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.hectordelgado.caredrivers.model.Ride
+import com.hectordelgado.caredrivers.util.Converters
 
 @Database(entities = [Ride::class], version = 1)
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     companion object {
         @Volatile private var INSTANCE: AppDatabase? = null
@@ -23,9 +26,6 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
     }
+
     abstract fun rideDao(): RideDao
-
-
-
-
 }

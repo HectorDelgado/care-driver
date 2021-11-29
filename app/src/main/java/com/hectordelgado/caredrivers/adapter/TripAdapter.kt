@@ -1,23 +1,17 @@
 package com.hectordelgado.caredrivers.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
-import android.widget.TextView
-import androidx.cardview.widget.CardView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.hectordelgado.caredrivers.R
+import com.hectordelgado.caredrivers.util.centsToDollarsAndCents
 import com.hectordelgado.caredrivers.databinding.ItemTripCardBinding
 import com.hectordelgado.caredrivers.databinding.ItemTripHeaderBinding
+import com.hectordelgado.caredrivers.model.Ride
 import com.hectordelgado.caredrivers.model.Trip
-import java.text.SimpleDateFormat
-import java.util.*
+import com.hectordelgado.caredrivers.util.toFormattedTime
+import com.hectordelgado.caredrivers.util.toLocalDateTime
 
-class TripAdapter(private val list: List<Trip>, private val onClick: (Trip.TripCard) -> Unit)
+class TripAdapter(private val list: List<Trip>, private val onClick: (Ride) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private inner class TripHeaderVH(private val itemBinding: ItemTripHeaderBinding)
         : RecyclerView.ViewHolder(itemBinding.root) {
@@ -32,16 +26,40 @@ class TripAdapter(private val list: List<Trip>, private val onClick: (Trip.TripC
     private inner class TripCardVH(private val itemBinding: ItemTripCardBinding)
         : RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(item: Trip.TripCard) {
-            itemBinding.cardView.setOnClickListener { onClick(item) }
-            itemBinding.timeStartTV.text = item.startTime
-            itemBinding.timeEndTV.text = item.endTime
-            itemBinding.rideDescriptionTV.text = item.riderBoosterDescription
-            itemBinding.rideEstimateTV.text = item.tripEstimate
-            itemBinding.waypointsTV.text = item.waypoints
+            val startLdt = item.ride.startsAt.toLocalDateTime()
+            val endLdt = item.ride.endsAt.toLocalDateTime()
+
+            val startTime = startLdt.toFormattedTime()
+            val endTime = endLdt.toFormattedTime()
+            val boosterSeatsRequired = item.ride.orderedWaypoints
+                .first()
+                .passengers
+                .fold(0) { sum, element -> sum + if (element.boosterSeat) 1 else 0 }
+            val boosterDescription = when(boosterSeatsRequired) {
+                0 -> ""
+                else -> " • $boosterSeatsRequired booster"
+            }.apply { if (boosterSeatsRequired > 1) { plus("s") } }
+            val riders = item.ride.orderedWaypoints.maxOf { it.passengers.size }
+            val boosterRiderDescription = "($riders rider"
+                .apply {
+                    if (riders > 1) {
+                        plus("s")
+                    }
+                }
+                .plus("$boosterDescription)")
+            val rideEstimate = "$${item.ride.estimatedEarningsCents.centsToDollarsAndCents()}"
+            val waypoints = item.ride.orderedWaypoints
                 .mapIndexed { index, orderedWaypoint ->
                     "${index + 1}. ${orderedWaypoint.location.address}"
                 }
                 .joinToString("\n")
+
+            itemBinding.cardView.setOnClickListener { onClick(item.ride) }
+            itemBinding.timeStartTV.text = startTime
+            itemBinding.timeEndTV.text = endTime
+            itemBinding.rideDescriptionTV.text = boosterRiderDescription
+            itemBinding.rideEstimateTV.text = rideEstimate
+            itemBinding.waypointsTV.text = waypoints
         }
     }
 

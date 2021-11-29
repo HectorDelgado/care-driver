@@ -1,4 +1,4 @@
-package com.hectordelgado.caredrivers
+package com.hectordelgado.caredrivers.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +12,7 @@ import com.hectordelgado.caredrivers.databinding.ActivityMainBinding
 import com.hectordelgado.caredrivers.model.Trip
 import com.hectordelgado.caredrivers.repository.ApiDao
 import com.hectordelgado.caredrivers.network.RetrofitBuilder
+import com.hectordelgado.caredrivers.repository.AppDatabase
 import com.hectordelgado.caredrivers.viewmodel.MainViewModel
 import com.hectordelgado.caredrivers.viewmodel.MainViewModelFactory
 
@@ -44,16 +45,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeViewModel() {
-        val apiHelper = ApiDao(RetrofitBuilder.apiService)
-        val factory = MainViewModelFactory(apiHelper)
+        val apiDao = ApiDao(RetrofitBuilder.apiService)
+        val rideDao = AppDatabase.getInstance(applicationContext).rideDao()
+        val factory = MainViewModelFactory(apiDao, rideDao)
         viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
     }
 
     private fun initializeRecyclerView(data: List<Trip>) {
-        adapter = TripAdapter(data) {
-            Intent(this, RideDetailsActivity::class.java).also {
-                startActivity(it)
+        adapter = TripAdapter(data) { ride ->
+            viewModel.saveRide(ride) {
+                val intent = Intent(this, RideDetailsActivity::class.java)
+                intent.putExtra("rideId", ride.tripId)
+                startActivity(intent)
             }
+
         }
         recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
